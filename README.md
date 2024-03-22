@@ -1,1 +1,2 @@
-# RayCast
+# RayCast from Zero
+<h4><i>"RayCast from Zero"</i> is a deep dive into the fundamentals of computer graphics through the development of a raycasting engine from scratch. It encompasses the creation of core components such as vertices, coordinates, and matrix operations (including dot and cross products, multiplication), as well as the implementation of objects, scenes, lights, and cameras (perspective and orthogonal). The focus is on understanding and applying the principles of raycasting and 3D rendering by building the necessary algorithms and structures without relying on pre-existing graphics libraries.</h4>
