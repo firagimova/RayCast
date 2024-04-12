@@ -1,6 +1,5 @@
 
-import org.ejml.*;
-import org.ejml.simple.SimpleMatrix;
+
 
 public class Matrix4 {
 
@@ -9,10 +8,8 @@ public class Matrix4 {
     public Matrix4() {
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
-                if (i == 3 && j == 3) {
-                    this.mdata[i][j] = 1.0f;
-                } 
-                else if(i == j){
+                
+                if(i == j){
                     this.mdata[i][j] = 1.0f;
                 }
                 else {
@@ -163,6 +160,53 @@ public class Matrix4 {
                 - matrix[0][3] * matrix[1][2] * matrix[2][0] * matrix[3][1];
 
         return det;
+    }
+    
+    public Matrix4 transpose() {
+        Matrix4 transposeMatrix = new Matrix4();
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 4; j++) {
+                transposeMatrix.mdata[i][j] = this.mdata[j][i];
+            }
+        }
+        return transposeMatrix;
+    }
+    
+    
+    private float determinant3x3(int i1, int i2, int i3, int j1, int j2, int j3) {
+        return
+            mdata[i1][j1] * (mdata[i2][j2] * mdata[i3][j3] - mdata[i2][j3] * mdata[i3][j2]) -
+            mdata[i1][j2] * (mdata[i2][j1] * mdata[i3][j3] - mdata[i2][j3] * mdata[i3][j1]) +
+            mdata[i1][j3] * (mdata[i2][j1] * mdata[i3][j2] - mdata[i2][j2] * mdata[i3][j1]);
+    }
+    
+    
+    public float determinant() {
+        float det = 0.0f;
+        for (int i = 0; i < 4; i++) {
+            det += (i % 2 == 0 ? 1 : -1) * mdata[0][i] * determinant3x3(1, 2, 3, (i + 1) % 4, (i + 2) % 4, (i + 3) % 4);
+        }
+        return det;
+    }
+    
+    
+    public Matrix4 inverse() {
+        float det = determinant();
+        if (det == 0) {
+            throw new ArithmeticException("Matrix is not invertible.");
+        }
+
+        Matrix4 inverse = new Matrix4();
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 4; j++) {
+                // Cofactor (with sign flip)
+                float cofactor = determinant3x3((j + 1) % 4, (j + 2) % 4, (j + 3) % 4, (i + 1) % 4, (i + 2) % 4, (i + 3) % 4);
+                cofactor = (i + j) % 2 == 0 ? cofactor : -cofactor;
+                // Adjugate and divide by determinant
+                inverse.mdata[i][j] = cofactor / det;
+            }
+        }
+        return inverse;
     }
 
 }

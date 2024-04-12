@@ -5,14 +5,6 @@ import java.io.IOException;
 
 
 public class ImageWriter {
-     
-    BufferedImage im;
-    String name;
-    
-    public ImageWriter(BufferedImage image, String name){
-        this.im = image;
-        this.name = name;
-    }
     
     //backgroudn color
     float[] color = new float[3]; 

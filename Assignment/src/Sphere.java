@@ -22,13 +22,17 @@ public class Sphere extends Object3D{
     }
     
     public Sphere(JSONObject sphereObject){
-        JSONArray sphereCenter = (JSONArray) sphereObject.get("center");
-        this.center = new Vector4(sphereCenter);
-
+        
+        this.center = new Vector4((JSONArray) sphereObject.get("center"));
         this.radius = ((Number) sphereObject.get("radius")).floatValue();
-
         JSONArray sphereColor = (JSONArray) sphereObject.get("color");
         this.color = new Vector4(sphereColor);
+        
+    }
+    
+    public Sphere(Object3D object3DToSphere) {
+        this();
+        this.color = object3DToSphere.color;
     }
     
     @Override
@@ -46,11 +50,17 @@ public class Sphere extends Object3D{
 
                 hit.t = temp_t;
                 hit.color = this.color;
+                Vector4 intersectionPoint = ray.origin.addition(ray.direction.MultV(temp_t));
+                Vector4 normal = intersectionPoint.subtract(this.center).normalize();
+                hit.normal = normal;
             }
             temp_t = (-b +d) / 2;
             if(temp_t > tmin && temp_t < hit.t){
                 hit.t = temp_t;
                 hit.color = this.color;
+                Vector4 intersectionPoint = ray.origin.addition(ray.direction.MultV(temp_t));
+                Vector4 normal = intersectionPoint.subtract(this.center).normalize();
+                hit.normal = normal;
             }
         }
     }

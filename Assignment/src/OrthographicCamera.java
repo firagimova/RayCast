@@ -32,7 +32,7 @@ public class OrthographicCamera extends Camera{
         JSONArray orthocameraUp = (JSONArray) orthocamera.get("up");
         this.up = new Vector4(orthocameraUp);
         this.horizontal = direction.cross(up);
-        this.size = ((Number) orthocamera.get("size")).floatValue();
+        this.size = -((Number) orthocamera.get("size")).floatValue();
     }
     
     @Override

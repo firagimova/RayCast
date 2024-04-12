@@ -65,13 +65,20 @@ public class Vector4 {
 
         return new Vector4((this.v[0] - v1.v[0]), (this.v[1] - v1.v[1]), (this.v[2] - v1.v[2]));
     }
+    
+    public Vector4 multVectors(Vector4 vector) {
+        return new Vector4((this.v[0] * vector.v[0]), (this.v[1] * vector.v[1]), (this.v[2] * vector.v[2]));
+    }
 
-    public void normalize() {
+    public Vector4 normalize() {
 
         float length = magnitude();
-        this.v[0] = this.v[0] / length;
-        this.v[1] = this.v[1] / length;
-        this.v[2] = this.v[2] / length;
+        float[] normalizedValues = new float[3];
+        normalizedValues[0] = this.v[0] / length;
+        normalizedValues[1] = this.v[1] / length;
+        normalizedValues[2] = this.v[2] / length;
+        return new Vector4(normalizedValues[0], normalizedValues[1], normalizedValues[2]);
+        
     }
 
 }
