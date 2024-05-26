@@ -1,5 +1,5 @@
 
-
+import org.json.simple.JSONObject;
 
 public class Matrix4 {
 
@@ -8,7 +8,6 @@ public class Matrix4 {
     public Matrix4() {
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
-                
                 if(i == j){
                     this.mdata[i][j] = 1.0f;
                 }
@@ -30,11 +29,11 @@ public class Matrix4 {
             }
         }
     }
+    
 
     public Matrix4 Translate(float tx, float ty, float tz) {
         Matrix4 translationMatrix = new Matrix4();
 
-        
         translationMatrix.mdata[0][3] = tx;
         translationMatrix.mdata[1][3] = ty;
         translationMatrix.mdata[2][3] = tz;

@@ -32,11 +32,12 @@ public class OrthographicCamera extends Camera{
         JSONArray orthocameraUp = (JSONArray) orthocamera.get("up");
         this.up = new Vector4(orthocameraUp);
         this.horizontal = direction.cross(up);
-        this.size = -((Number) orthocamera.get("size")).floatValue();
+        this.size = ((Number) orthocamera.get("size")).floatValue();
     }
     
     @Override
     public Ray generateRay(float x, float y) {
+
         Vector4 horizontal = new Vector4();
         horizontal = direction.cross(up);
         
@@ -44,7 +45,7 @@ public class OrthographicCamera extends Camera{
 
         orthoCamRay.direction = this.direction;
 
-        orthoCamRay.origin = (this.center.addition(horizontal.MultV((float) ((x - 0.5) * size))).addition(up.MultV((float) ((y - 0.5) * size))));
+        orthoCamRay.origin = (this.center.addition(horizontal.multV((float) ((x - 0.5) * size))).addition(up.multV((float) ((y - 0.5) * size))));
 
         return orthoCamRay;
     }

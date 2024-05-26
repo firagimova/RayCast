@@ -40,10 +40,9 @@ public class PerspectiveCamera extends Camera {
         Ray perspectiveCamRay = new Ray();
 
         perspectiveCamRay.origin = this.center;
-        //1f / Math.tan(double(angle / 2)) + 
-        //perspectiveCamRay.direction = horizontal.scalarMultVector(float) ((x - 0.5) * size));
+        
         float halfAngle = (float) Math.tan(angle / 2);
-        Vector4 rayDirection = direction.addition(horizontal.MultV((x - 0.5f) * halfAngle)).addition(up.MultV((y - 0.5f) * halfAngle));
+        Vector4 rayDirection = direction.addition(horizontal.multV((x - 0.5f) * halfAngle)).addition(up.multV((y - 0.5f) * halfAngle));
         
         perspectiveCamRay.direction = rayDirection.normalize();
         

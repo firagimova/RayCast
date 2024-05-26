@@ -2,16 +2,36 @@
 public class Hit {
     float t;
     
-    Vector4 color = new Vector4();
-    Vector4 normal = new Vector4();
+    Material material;
+    Vector4 normal;
     
     public Hit() {
-        color = new Vector4();
+        material = new PhongMaterial();
         normal = new Vector4();
+        t = 0;
     }
     
-    public Hit(float t, Vector4 color) {
+    public Hit(float t, Material material) {
         this.t = t;
-        this.color = color;
+        this.material = material;
+        this.normal = new Vector4();
     }
+
+    public Material getMaterial() {
+        return material;
+    }
+
+    public void setMaterial(Material material) {
+        this.material = material;
+    }
+
+    public Vector4 getNormal() {
+        return normal;
+    }
+
+    public void setNormal(Vector4 normal) {
+        this.normal = normal;
+    }
+    
+    
 }

@@ -2,18 +2,16 @@
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
-
-public class Transformation extends Object3D{
+public class Transformation extends Object3D {
 
     Matrix4 m; //transformation matrix
     Object3D object;
-    
-    
+
     public Transformation(Matrix4 m, Object3D object) {
         this.m = m;
         this.object = object;
     }
-    
+
     public Transformation(JSONObject transformationObject) {
         this.m = new Matrix4();
         if (transformationObject.containsKey("transformations")) {
@@ -66,26 +64,26 @@ public class Transformation extends Object3D{
             }
         }
     }
-    
+
     @Override
     public void intersect(Ray ray, Hit hit, float tmin) {
-        
-        Matrix4 mInverse = m.inverse(); // We'll add this method in the Matrix4 class
-        
+
+        Matrix4 mInverse = m.inverse();
+
         Vector4 transformedOrigin = mInverse.multi(ray.origin);
         Vector4 transformedDirection = mInverse.multi(ray.direction).normalize();
-        
+
         Ray transformedRay = new Ray(transformedOrigin, transformedDirection);
-        
+
         object.intersect(transformedRay, hit, tmin);
-        
+
         if (hit.t < Float.MAX_VALUE) {
-            Matrix4 mTransposeInverse = mInverse.transpose(); // We'll add this method in the Matrix4 class
+            Matrix4 mTransposeInverse = mInverse.transpose();
             Vector4 transformedNormal = mTransposeInverse.multi(hit.normal).normalize();
-            
+
             hit.normal = transformedNormal;
         }
-        
+
     }
-    
+
 }

@@ -18,19 +18,29 @@
 			"transform" : {
 				"transformations" : [
 					{
-						"zrotate" : 90
+						"zrotate" : 45
 					},
 					{
 						"scale" : [1, 0.2, 1]
 					}
 				],
 				"object" : {
-					"sphere" : {
-						"center" : [0, 0, 0],
-						"radius" : 1,
-						"color" : [0.7, 0.3, 0.9]
+					"group" : [ 
+						{
+						"sphere" : {
+							"center" : [0, 0, 0],
+							"radius" : 1,
+							"color" : [1, 1, 1]
+						}
+					},
+					{
+						"sphere" : {
+							"center" : [1, 1, -2],
+							"radius" : 1,
+							"color" : [1, 0, 0]
+						}
 					}
-					
+					]
 				}
 			}
 			

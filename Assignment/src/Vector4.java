@@ -1,8 +1,6 @@
 
 public class Vector4 {
 
-    
-
     float[] v= new float[4];
 
     public Vector4() {
@@ -49,7 +47,7 @@ public class Vector4 {
         return new Vector4(this.v[1] * v.v[2] - this.v[2] * v.v[1], this.v[2] * v.v[0] - this.v[0] * v.v[2], this.v[0] * v.v[1] - this.v[1] * v.v[0], 1);
     }
     
-    public Vector4 MultV(float constant) {
+    public Vector4 multV(float constant) {
 
         return new Vector4((this.v[0] * constant), (this.v[1] * constant), (this.v[2] * constant));
     }
@@ -79,6 +77,14 @@ public class Vector4 {
         normalizedValues[2] = this.v[2] / length;
         return new Vector4(normalizedValues[0], normalizedValues[1], normalizedValues[2]);
         
+    }
+    
+    public Vector4 negate() {
+       return new Vector4(-this.v[0], -this.v[1], -this.v[2]);
+    }
+    
+    public Vector4 reflect(Vector4 normal) {
+        return this.subtract(normal.multV(2 * this.dot(normal)));
     }
 
 }

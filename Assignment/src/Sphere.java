@@ -7,58 +7,56 @@ public class Sphere extends Object3D{
 
     float radius;
     Vector4 center;
-    Vector4 color = new Vector4();
+    int materialIndex = -1;
     
     public Sphere(){
         center = new Vector4();
         radius = 0.0f;
-        color = new Vector4();
+        this.material = new PhongMaterial();
     }
     
-    public Sphere(Vector4 color, float radius, Vector4 center) {
-        super(color);
+    public Sphere(float radius, Vector4 center, Material material) {
+        super(material);
         this.radius = radius;
         this.center = center;
     }
     
     public Sphere(JSONObject sphereObject){
-        
+        this();
         this.center = new Vector4((JSONArray) sphereObject.get("center"));
         this.radius = ((Number) sphereObject.get("radius")).floatValue();
-        JSONArray sphereColor = (JSONArray) sphereObject.get("color");
-        this.color = new Vector4(sphereColor);
-        
+        this.materialIndex = ((Number) sphereObject.get("material")).intValue();
     }
-    
+    /*
     public Sphere(Object3D object3DToSphere) {
         this();
         this.color = object3DToSphere.color;
     }
+*/
     
     @Override
     public void intersect(Ray ray, Hit hit, float tmin) {
         Vector4 tempOrigin = new Vector4(ray.origin.subtract(this.center));
         float b = ray.direction.dot(tempOrigin) * 2;
+        float c = (float) (tempOrigin.dot(tempOrigin) - radius * radius);
 
-        float c = (float) (tempOrigin.dot(tempOrigin) - Math.pow(radius, 2));
-
-        if(Math.pow(b,2) - 4 * c > 0){
-            float d = (float) Math.sqrt(Math.pow(b, 2) - 4 * c);
-            float temp_t = (-b - d) / 2;
+        float discriminant = b * b - 4 * c;
+        if(discriminant > 0){
+            float sqrtDiscriminant = (float) Math.sqrt(discriminant);
+            float temp_t = (-b - sqrtDiscriminant) / 2;
 
             if(temp_t > tmin && temp_t < hit.t){
-
                 hit.t = temp_t;
-                hit.color = this.color;
-                Vector4 intersectionPoint = ray.origin.addition(ray.direction.MultV(temp_t));
+                hit.material = this.material;
+                Vector4 intersectionPoint = ray.origin.addition(ray.direction.multV(temp_t));
                 Vector4 normal = intersectionPoint.subtract(this.center).normalize();
                 hit.normal = normal;
             }
-            temp_t = (-b +d) / 2;
+            temp_t = (-b + sqrtDiscriminant) / 2;
             if(temp_t > tmin && temp_t < hit.t){
                 hit.t = temp_t;
-                hit.color = this.color;
-                Vector4 intersectionPoint = ray.origin.addition(ray.direction.MultV(temp_t));
+                hit.material = this.material;
+                Vector4 intersectionPoint = ray.origin.addition(ray.direction.multV(temp_t));
                 Vector4 normal = intersectionPoint.subtract(this.center).normalize();
                 hit.normal = normal;
             }
